@@ -1,0 +1,26 @@
+name: Add annotations from Jest JUnit report
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - "*"
+
+jobs:
+  annotations:
+    name: Add annotations
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Add GitHub check annotations
+        uses: gesposito/action-junit-annotations@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          check_name: Failing Jest test cases
+          report_path: "./test-results/"
+          report_filename: "jest-junit-nested-failure.xml"
